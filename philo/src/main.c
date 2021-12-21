@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:44:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 07:03:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:10:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,36 @@ static int	parse_params(t_sim *sim, int argc, char *argv[])
 	return (params);
 }
 
+static void	cleanup(t_sim *sim)
+{
+	unsigned int	n;
+
+	if (sim->forks)
+	{
+		n = 0;
+		while (n < sim->fork_count)
+			pthread_mutex_destroy(&sim->forks[n++]);
+		free(sim->forks);
+	}
+	if (sim->philos)
+	{
+		n = 0;
+		while (n < sim->philo_count)
+			++n;
+		free(sim->philos);
+	}
+}
+
 int	main(int argc, char *argv[])
 {
 	t_sim	sim;
+	int		res;
 
 	if (!parse_params(memset(&sim, 0, sizeof (sim)), argc, argv))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		return (1);
+	res = init(&sim);
+	if (res)
+		run(&sim);
+	cleanup(&sim);
+	return (!res);
 }

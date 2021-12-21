@@ -6,14 +6,17 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 07:14:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:16:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <pthread.h>
+
 typedef struct s_sim	t_sim;
+typedef struct s_philo	t_philo;
 
 struct s_sim
 {
@@ -23,8 +26,21 @@ struct s_sim
 	unsigned int	time_sleep;
 	unsigned int	goal;
 	int				has_goal;
+	unsigned int	fork_count;
+	pthread_mutex_t	*forks;
+	t_philo			*philos;
+};
+
+struct s_philo
+{
+	unsigned int	id;
+	pthread_mutex_t	lock;
 };
 
 unsigned long long	now(void);
+
+int					init(t_sim *sim);
+
+void				run(t_sim *sim);
 
 #endif

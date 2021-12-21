@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 09:15:15 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:27:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	init_philo(t_philo *philo, unsigned int id)
 {
 	philo->id = id;
 	if (pthread_mutex_init(&philo->lock, NULL))
+		return (0);
+	if (pthread_create(&philo->thread, NULL, NULL, philo))
 		return (0);
 	return (1);
 }

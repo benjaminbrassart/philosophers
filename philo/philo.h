@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 09:16:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:24:47 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ struct s_sim
 struct s_philo
 {
 	unsigned int	id;
+	pthread_t		thread;
 	pthread_mutex_t	lock;
 };
 

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 09:27:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:40:42 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int	init_philo(t_philo *philo, unsigned int id)
+static int	init_philo(t_philo *philo, t_sim *sim, unsigned int id)
 {
+	philo->sim = sim;
 	philo->id = id;
 	if (pthread_mutex_init(&philo->lock, NULL))
 		return (0);
@@ -29,7 +30,7 @@ static int	init_philos(t_sim *sim)
 	unsigned int	n;
 
 	n = 0;
-	while (n < sim->philo_count && init_philo(&sim->philos[n], n))
+	while (n < sim->philo_count && init_philo(&sim->philos[n], sim, n))
 		++n;
 	return (n == sim->philo_count);
 }
@@ -42,6 +43,11 @@ static int	init_forks(t_sim *sim)
 	while (n < sim->fork_count && !pthread_mutex_init(&sim->forks[n], NULL))
 		++n;
 	return (n == sim->fork_count);
+}
+
+static int	init_locks(t_sim *sim)
+{
+	return (!pthread_mutex_init(&sim->talk_lock, NULL));
 }
 
 int	init(t_sim *sim)
@@ -61,5 +67,5 @@ int	init(t_sim *sim)
 		printf("Error: Failed to allocate memory\n");
 		return (0);
 	}
-	return (init_forks(sim) && init_philos(sim));
+	return (init_locks(sim) && init_forks(sim) && init_philos(sim));
 }

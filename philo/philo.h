@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 09:33:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:40:07 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ struct s_sim
 	unsigned int	fork_count;
 	pthread_mutex_t	*forks;
 	t_philo			*philos;
+	pthread_mutex_t	talk_lock;
 };
 
 struct s_philo
 {
+	t_sim			*sim;
 	unsigned int	id;
 	pthread_t		thread;
 	pthread_mutex_t	lock;

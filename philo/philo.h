@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 09:24:47 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:33:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,9 @@ unsigned long long	now(void);
 int					init(t_sim *sim);
 
 void				run(t_sim *sim);
+
+void				*routine_philo(void *p);
+
+void				*routine_manager(void *s);
 
 #endif

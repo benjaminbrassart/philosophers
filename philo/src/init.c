@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 09:40:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/22 07:46:38 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ static int	init_philo(t_philo *philo, t_sim *sim, unsigned int id)
 {
 	philo->sim = sim;
 	philo->id = id;
+	if (id % 2 == 0)
+	{
+		philo->fork1 = &sim->forks[id];
+		philo->fork2 = &sim->forks[(id + 1) % sim->fork_count];
+	}
+	else
+	{
+		philo->fork2 = &sim->forks[id];
+		philo->fork1 = &sim->forks[(id + 1) % sim->fork_count];
+	}
 	if (pthread_mutex_init(&philo->lock, NULL))
 		return (0);
 	if (pthread_create(&philo->thread, NULL, NULL, philo))

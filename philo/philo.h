@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 09:40:07 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/22 07:44:40 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ struct s_philo
 	unsigned int	id;
 	pthread_t		thread;
 	pthread_mutex_t	lock;
+	pthread_mutex_t	*fork1;
+	pthread_mutex_t	*fork2;
 };
 
 unsigned long long	now(void);

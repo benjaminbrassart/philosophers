@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/15 01:39:23 by bbrassar          #+#    #+#              #
-#    Updated: 2021/12/21 09:23:03 by bbrassar         ###   ########.fr        #
+#    Updated: 2021/12/23 10:12:00 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,6 @@ clean:
 fclean:				clean
 					rm -f $(NAME)
 
-re:					fclean re
+re:					fclean all
 
 .PHONY:				all clean fclean re

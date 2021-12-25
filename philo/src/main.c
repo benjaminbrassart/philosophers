@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:44:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 09:10:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/23 08:29:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	parse_params(t_sim *sim, int argc, char *argv[])
 
 	if (argc != 5 && argc != 6)
 	{
-		printf("Error: Expected 4 or 5 arguments, got %d\n", argc - 1);
+		printf("Error: Expected 4 or 5 arguments\n");
 		return (0);
 	}
 	params = (set_param(&sim->philo_count, argv[1])
@@ -65,7 +65,7 @@ static void	cleanup(t_sim *sim)
 	{
 		n = 0;
 		while (n < sim->philo_count)
-			++n;
+			pthread_mutex_destroy(&sim->philos[n++].alive_lock);
 		free(sim->philos);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/22 07:46:38 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/25 09:03:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ static int	init_philo(t_philo *philo, t_sim *sim, unsigned int id)
 {
 	philo->sim = sim;
 	philo->id = id;
+	philo->alive = 1;
+	philo->alive_lock = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	philo->eating = 0;
+	philo->eating_lock = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	philo->last_eat = now();
+	philo->last_eat_lock = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	if (id % 2 == 0)
 	{
 		philo->fork1 = &sim->forks[id];
@@ -28,36 +34,40 @@ static int	init_philo(t_philo *philo, t_sim *sim, unsigned int id)
 		philo->fork2 = &sim->forks[id];
 		philo->fork1 = &sim->forks[(id + 1) % sim->fork_count];
 	}
-	if (pthread_mutex_init(&philo->lock, NULL))
+	if (pthread_create(&philo->thread, NULL, routine_philo, philo))
+	{
+		printf("Error: Failed to create thread\n");
 		return (0);
-	if (pthread_create(&philo->thread, NULL, NULL, philo))
-		return (0);
+	}
 	return (1);
 }
 
-static int	init_philos(t_sim *sim)
+static void	init_philos(t_sim *sim)
 {
 	unsigned int	n;
 
 	n = 0;
 	while (n < sim->philo_count && init_philo(&sim->philos[n], sim, n))
 		++n;
-	return (n == sim->philo_count);
 }
 
-static int	init_forks(t_sim *sim)
+static int	init_pthread(t_sim *sim)
 {
 	unsigned int	n;
 
 	n = 0;
-	while (n < sim->fork_count && !pthread_mutex_init(&sim->forks[n], NULL))
-		++n;
-	return (n == sim->fork_count);
-}
-
-static int	init_locks(t_sim *sim)
-{
-	return (!pthread_mutex_init(&sim->talk_lock, NULL));
+	while (n < sim->fork_count)
+		sim->forks[n++] = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	sim->talk_lock = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	sim->running_lock = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	sim->start_lock = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	pthread_mutex_lock(&sim->start_lock);
+	if (pthread_create(&sim->monitor_thread, NULL, routine_monitor, sim))
+	{
+		printf("Error: Failed to create thread\n");
+		return (0);
+	}
+	return (1);
 }
 
 int	init(t_sim *sim)
@@ -67,6 +77,7 @@ int	init(t_sim *sim)
 		printf("Error: There must be at least 1 philosopher\n");
 		return (0);
 	}
+	sim->running = 1;
 	sim->fork_count = sim->philo_count;
 	if (sim->philo_count == 1)
 		++sim->fork_count;
@@ -77,5 +88,8 @@ int	init(t_sim *sim)
 		printf("Error: Failed to allocate memory\n");
 		return (0);
 	}
-	return (init_locks(sim) && init_forks(sim) && init_philos(sim));
+	if (!init_pthread(sim))
+		return (0);
+	init_philos(sim);
+	return (1);
 }

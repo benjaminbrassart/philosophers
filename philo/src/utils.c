@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:14:29 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/21 09:40:59 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/23 09:21:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ unsigned long long	now(void)
 
 void	philo_log(t_philo *philo, char const *action)
 {
+	if (!is_running(philo->sim))
+		return ;
 	pthread_mutex_lock(&philo->sim->talk_lock);
 	printf("%llu %u %s\n", now(), philo->id, action);
 	pthread_mutex_unlock(&philo->sim->talk_lock);

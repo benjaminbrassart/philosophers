@@ -21,7 +21,7 @@ endif
 
 DIR_SRC				= src
 DIR_OBJ				= obj
-SRC					= main.c utils.c init.c run.c
+SRC					= main.c utils.c init.c run.c routine.c autolock.c
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)
 

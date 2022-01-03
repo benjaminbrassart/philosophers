@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/15 01:39:23 by bbrassar          #+#    #+#              #
-#    Updated: 2021/12/23 10:12:00 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/01/03 04:20:01 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,13 @@ endif
 
 DIR_SRC				= src
 DIR_OBJ				= obj
-SRC					= main.c utils.c init.c run.c routine.c autolock.c
+SRC					=	main.c utils.c init.c run.c routine.c \
+						$(addprefix autolock/, \
+							alive.c \
+							eating.c \
+							last_eat.c \
+							running.c \
+						)
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)
 

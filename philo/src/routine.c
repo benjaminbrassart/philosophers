@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 09:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/25 09:07:02 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/03 04:17:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,26 @@ void	*routine_philo(void *p)
 	return (NULL);
 }
 
+static int	routine_monitor_philo(t_sim *sim, t_philo *philo)
+{
+	unsigned long long	last_eat;
+
+	if (!is_eating(philo))
+	{
+		last_eat = get_last_eat(philo);
+		if (now() > last_eat + sim->time_die)
+		{
+			philo_log(philo, ACTION_DEAD);
+			set_running(sim, 0);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 void	*routine_monitor(void *s)
 {
 	t_sim *const		sim = s;
-	unsigned long long	last_eat;
 	unsigned int		n;
 
 	pthread_mutex_lock(&sim->start_lock);
@@ -54,19 +70,8 @@ void	*routine_monitor(void *s)
 	{
 		n = 0;
 		while (n < sim->philo_count)
-		{
-			if (!is_eating(&sim->philos[n]))
-			{
-				last_eat = get_last_eat(&sim->philos[n]);
-				if (now() > last_eat + sim->time_die)
-				{
-					philo_log(&sim->philos[n], ACTION_DEAD);
-					set_running(sim, 0);
-					return (NULL);
-				}
-			}
-			++n;
-		}
+			if (routine_monitor_philo(sim, &sim->philos[n]))
+				return (NULL);
 		usleep(100);
 	}
 	return (NULL);

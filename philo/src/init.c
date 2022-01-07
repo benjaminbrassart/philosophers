@@ -6,13 +6,29 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/25 09:03:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/03 04:48:14 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+static void	init_philo_forks(t_philo *philo)
+{
+	int const	id = philo->id;
+
+	if (id % 2 == 0)
+	{
+		philo->fork1 = &philo->sim->forks[id];
+		philo->fork2 = &philo->sim->forks[(id + 1) % philo->sim->fork_count];
+	}
+	else
+	{
+		philo->fork2 = &philo->sim->forks[id];
+		philo->fork1 = &philo->sim->forks[(id + 1) % philo->sim->fork_count];
+	}
+}
 
 static int	init_philo(t_philo *philo, t_sim *sim, unsigned int id)
 {
@@ -24,16 +40,9 @@ static int	init_philo(t_philo *philo, t_sim *sim, unsigned int id)
 	philo->eating_lock = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	philo->last_eat = now();
 	philo->last_eat_lock = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
-	if (id % 2 == 0)
-	{
-		philo->fork1 = &sim->forks[id];
-		philo->fork2 = &sim->forks[(id + 1) % sim->fork_count];
-	}
-	else
-	{
-		philo->fork2 = &sim->forks[id];
-		philo->fork1 = &sim->forks[(id + 1) % sim->fork_count];
-	}
+	philo->eat_count = 0;
+	philo->eat_count_lock = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	init_philo_forks(philo);
 	if (pthread_create(&philo->thread, NULL, routine_philo, philo))
 	{
 		printf("Error: Failed to create thread\n");

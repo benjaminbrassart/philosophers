@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:44:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/23 08:29:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/03 04:56:40 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	main(int argc, char *argv[])
 
 	if (!parse_params(memset(&sim, 0, sizeof (sim)), argc, argv))
 		return (1);
+	if (sim.has_goal && !sim.goal)
+		return (0);
 	res = init(&sim);
 	if (res)
 		run(&sim);

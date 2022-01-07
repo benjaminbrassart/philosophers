@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/15 01:39:23 by bbrassar          #+#    #+#              #
-#    Updated: 2022/01/03 04:20:01 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/01/03 04:33:48 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC					=	main.c utils.c init.c run.c routine.c \
 							eating.c \
 							last_eat.c \
 							running.c \
+							eat_count.c \
 						)
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)

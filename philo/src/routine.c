@@ -6,13 +6,26 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 09:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/03 04:17:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/07 02:48:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/prctl.h>
+
+static int	check_eat_count(t_philo *philo)
+{
+	if (!philo->sim->has_goal)
+		return (0);
+	if (increase_eat_count(philo) >= philo->sim->goal)
+	{
+		set_alive(philo, 0);
+		return (1);
+	}
+	return (0);
+}
 
 void	*routine_philo(void *p)
 {
@@ -20,10 +33,8 @@ void	*routine_philo(void *p)
 
 	pthread_mutex_lock(&philo->sim->start_lock);
 	pthread_mutex_unlock(&philo->sim->start_lock);
-	while (1)
+	while (is_running(philo->sim) && is_alive(philo))
 	{
-		if (!is_running(philo->sim) || !is_alive(philo))
-			break ;
 		pthread_mutex_lock(philo->fork1);
 		philo_log(philo, ACTION_FORK);
 		pthread_mutex_lock(philo->fork2);
@@ -35,6 +46,8 @@ void	*routine_philo(void *p)
 		set_eating(philo, 0);
 		pthread_mutex_unlock(philo->fork1);
 		pthread_mutex_unlock(philo->fork2);
+		if (check_eat_count(philo))
+			break ;
 		philo_log(philo, ACTION_SLEEP);
 		usleep(philo->sim->time_sleep * 1000);
 		philo_log(philo, ACTION_THINK);
@@ -42,17 +55,17 @@ void	*routine_philo(void *p)
 	return (NULL);
 }
 
-static int	routine_monitor_philo(t_sim *sim, t_philo *philo)
+static int	routine_monitor_philo(t_philo *philo)
 {
 	unsigned long long	last_eat;
 
-	if (!is_eating(philo))
+	if (is_alive(philo) && !is_eating(philo))
 	{
 		last_eat = get_last_eat(philo);
-		if (now() > last_eat + sim->time_die)
+		if (now() > last_eat + philo->sim->time_die * 1000)
 		{
 			philo_log(philo, ACTION_DEAD);
-			set_running(sim, 0);
+			set_running(philo->sim, 0);
 			return (1);
 		}
 	}
@@ -64,13 +77,14 @@ void	*routine_monitor(void *s)
 	t_sim *const		sim = s;
 	unsigned int		n;
 
+	prctl(PR_SET_NAME, "monitorB");
 	pthread_mutex_lock(&sim->start_lock);
 	pthread_mutex_unlock(&sim->start_lock);
-	while (is_running(sim))
+	while (get_alive_count(sim) > 0 && is_running(sim))
 	{
 		n = 0;
 		while (n < sim->philo_count)
-			if (routine_monitor_philo(sim, &sim->philos[n]))
+			if (routine_monitor_philo(&sim->philos[n]))
 				return (NULL);
 		usleep(100);
 	}

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/25 09:06:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/03 05:19:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ struct s_philo
 	pthread_mutex_t		eating_lock;
 	unsigned long long	last_eat;
 	pthread_mutex_t		last_eat_lock;
+	unsigned int		eat_count;
+	pthread_mutex_t		eat_count_lock;
 };
 
 unsigned long long	now(void);
@@ -75,6 +77,10 @@ void				set_running(t_sim *sim, int running);
 
 int					is_alive(t_philo *philo);
 
+void				set_alive(t_philo *philo, int alive);
+
+unsigned int		get_alive_count(t_sim *sim);
+
 int					is_eating(t_philo *philo);
 
 void				set_eating(t_philo *philo, int eating);
@@ -82,5 +88,11 @@ void				set_eating(t_philo *philo, int eating);
 unsigned long long	get_last_eat(t_philo *philo);
 
 void				set_last_eat(t_philo *philo, unsigned long long last_eat);
+
+unsigned int		get_eat_count(t_philo *philo);
+
+void				set_eat_count(t_philo *philo, unsigned int eat_count);
+
+unsigned int		increase_eat_count(t_philo *philo);
 
 #endif

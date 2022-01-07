@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/03 05:19:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:52:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ struct s_sim
 	pthread_mutex_t		talk_lock;
 	int					running;
 	pthread_mutex_t		running_lock;
+	unsigned long long	start_time;
 	pthread_mutex_t		start_lock;
 };
 

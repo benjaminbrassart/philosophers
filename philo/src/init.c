@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/03 04:48:14 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:50:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,20 @@ static int	init_philo(t_philo *philo, t_sim *sim, unsigned int id)
 	init_philo_forks(philo);
 	if (pthread_create(&philo->thread, NULL, routine_philo, philo))
 	{
-		printf("Error: Failed to create thread\n");
+		printf("Error: Failed to create thread (philo %u)\n", id);
 		return (0);
 	}
 	return (1);
 }
 
-static void	init_philos(t_sim *sim)
+static int	init_philos(t_sim *sim)
 {
 	unsigned int	n;
 
 	n = 0;
 	while (n < sim->philo_count && init_philo(&sim->philos[n], sim, n))
 		++n;
+	return (n == sim->philo_count);
 }
 
 static int	init_pthread(t_sim *sim)
@@ -73,7 +74,7 @@ static int	init_pthread(t_sim *sim)
 	pthread_mutex_lock(&sim->start_lock);
 	if (pthread_create(&sim->monitor_thread, NULL, routine_monitor, sim))
 	{
-		printf("Error: Failed to create thread\n");
+		printf("Error: Failed to create thread (monitor)\n");
 		return (0);
 	}
 	return (1);
@@ -86,7 +87,6 @@ int	init(t_sim *sim)
 		printf("Error: There must be at least 1 philosopher\n");
 		return (0);
 	}
-	sim->running = 1;
 	sim->fork_count = sim->philo_count;
 	if (sim->philo_count == 1)
 		++sim->fork_count;
@@ -97,8 +97,8 @@ int	init(t_sim *sim)
 		printf("Error: Failed to allocate memory\n");
 		return (0);
 	}
-	if (!init_pthread(sim))
+	if (!init_pthread(sim) || !init_philos(sim))
 		return (0);
-	init_philos(sim);
+	sim->running = 1;
 	return (1);
 }

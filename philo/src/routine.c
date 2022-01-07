@@ -6,14 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 09:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/07 02:48:11 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:15:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <stdio.h>
 #include <unistd.h>
-#include <sys/prctl.h>
 
 static int	check_eat_count(t_philo *philo)
 {
@@ -52,6 +50,7 @@ void	*routine_philo(void *p)
 		usleep(philo->sim->time_sleep * 1000);
 		philo_log(philo, ACTION_THINK);
 	}
+	set_alive(philo, 0);
 	return (NULL);
 }
 
@@ -74,17 +73,16 @@ static int	routine_monitor_philo(t_philo *philo)
 
 void	*routine_monitor(void *s)
 {
-	t_sim *const		sim = s;
-	unsigned int		n;
+	t_sim *const	sim = s;
+	unsigned int	n;
 
-	prctl(PR_SET_NAME, "monitorB");
 	pthread_mutex_lock(&sim->start_lock);
 	pthread_mutex_unlock(&sim->start_lock);
 	while (get_alive_count(sim) > 0 && is_running(sim))
 	{
 		n = 0;
 		while (n < sim->philo_count)
-			if (routine_monitor_philo(&sim->philos[n]))
+			if (routine_monitor_philo(&sim->philos[n++]))
 				return (NULL);
 		usleep(100);
 	}

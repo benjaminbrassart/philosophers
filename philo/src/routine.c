@@ -59,7 +59,7 @@ static int	routine_monitor_philo(t_philo *philo)
 	if (is_alive(philo) && !is_eating(philo))
 	{
 		last_eat = get_last_eat(philo);
-		if (now() > last_eat + philo->sim->time_die * 1000)
+		if (now() >= last_eat + philo->sim->time_die)
 		{
 			philo_log(philo, ACTION_DEAD);
 			set_running(philo->sim, 0);

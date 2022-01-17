@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 09:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/07 03:15:06 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/17 17:37:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 
 static int	check_eat_count(t_philo *philo)
 {
-	if (!philo->sim->has_goal)
-		return (0);
-	if (increase_eat_count(philo) >= philo->sim->goal)
+	if (philo->sim->has_goal && increase_eat_count(philo) >= philo->sim->goal)
 	{
 		set_alive(philo, 0);
 		return (1);
@@ -78,7 +76,7 @@ void	*routine_monitor(void *s)
 
 	pthread_mutex_lock(&sim->start_lock);
 	pthread_mutex_unlock(&sim->start_lock);
-	while (get_alive_count(sim) > 0 && is_running(sim))
+	while (is_running(sim) && get_alive_count(sim) > 0)
 	{
 		n = 0;
 		while (n < sim->philo_count)

@@ -18,7 +18,8 @@
 				"focus": false,
 				"panel": "dedicated",
 				"showReuseMessage": true,
-				"clear": false
+				"clear": false,
+				"revealProblems": "onProblem"
 			}
 		},
 		{
@@ -35,7 +36,8 @@
 				"focus": false,
 				"panel": "dedicated",
 				"showReuseMessage": true,
-				"clear": false
+				"clear": false,
+				"revealProblems": "onProblem"
 			}
 		}
 	]

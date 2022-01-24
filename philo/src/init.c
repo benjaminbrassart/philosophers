@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/17 19:39:09 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:38:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	init_philo(t_philo *philo, t_sim *sim, unsigned int id)
 	philo->id = id;
 	philo->alive = 1;
 	philo->eating = 0;
-	philo->last_eat = now();
 	philo->eat_count = 0;
 	if (pthread_mutex_init(&philo->alive_lock, NULL)
 		|| pthread_mutex_init(&philo->eating_lock, NULL)

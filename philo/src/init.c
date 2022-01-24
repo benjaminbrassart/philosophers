@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/24 17:38:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:44:22 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static void	init_philo_forks(t_philo *philo)
 	if (id % 2 == 0)
 	{
 		philo->fork1 = &philo->sim->forks[id];
-		philo->fork2 = &philo->sim->forks[(id + 1) % philo->sim->fork_count];
+		philo->fork2 = &philo->sim->forks[(id + 1) % philo->sim->philo_count];
 	}
 	else
 	{
 		philo->fork2 = &philo->sim->forks[id];
-		philo->fork1 = &philo->sim->forks[(id + 1) % philo->sim->fork_count];
+		philo->fork1 = &philo->sim->forks[(id + 1) % philo->sim->philo_count];
 	}
 }
 
@@ -63,7 +63,7 @@ static int	init_pthread(t_sim *sim)
 	unsigned int	n;
 
 	n = 0;
-	while (n < sim->fork_count)
+	while (n < sim->philo_count)
 		if (pthread_mutex_init(&sim->forks[n++], NULL))
 			return (printf("Error: Failed to create mutex\n") && 0);
 	if (pthread_mutex_init(&sim->talk_lock, NULL)
@@ -83,10 +83,7 @@ int	init(t_sim *sim)
 		printf("Error: There must be at least 1 philosopher\n");
 		return (0);
 	}
-	sim->fork_count = sim->philo_count;
-	if (sim->philo_count == 1)
-		++sim->fork_count;
-	sim->forks = malloc(sizeof (*sim->forks) * sim->fork_count);
+	sim->forks = malloc(sizeof (*sim->forks) * sim->philo_count);
 	sim->philos = malloc(sizeof (*sim->philos) * sim->philo_count);
 	if (!sim->forks || !sim->philos)
 		return (printf("Error: Failed to allocate memory\n") && 0);

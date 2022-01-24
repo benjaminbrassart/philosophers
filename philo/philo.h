@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/07 03:52:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:43:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ struct s_sim
 	unsigned int		time_sleep;
 	unsigned int		goal;
 	int					has_goal;
-	unsigned int		fork_count;
 	pthread_t			monitor_thread;
 	pthread_mutex_t		*forks;
 	t_philo				*philos;

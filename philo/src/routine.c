@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 09:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/24 17:38:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:47:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,16 @@ static int	routine_monitor_philo(t_philo *philo)
 	return (0);
 }
 
+static void	*unlock_mutexes(t_sim *sim)
+{
+	unsigned int	n;
+
+	n = 0;
+	while (n < sim->philo_count)
+		pthread_mutex_unlock(&sim->forks[n++]);
+	return (NULL);
+}
+
 void	*routine_monitor(void *s)
 {
 	t_sim *const	sim = s;
@@ -82,8 +92,8 @@ void	*routine_monitor(void *s)
 		n = 0;
 		while (n < sim->philo_count)
 			if (routine_monitor_philo(&sim->philos[n++]))
-				return (NULL);
+				return (unlock_mutexes(sim));
 		usleep(100);
 	}
-	return (NULL);
+	return (unlock_mutexes(sim));
 }

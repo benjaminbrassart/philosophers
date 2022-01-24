@@ -6,21 +6,22 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 09:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/19 16:09:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:38:30 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdio.h>
 #include <unistd.h>
 
 static int	check_eat_count(t_philo *philo)
 {
-	if (philo->sim->has_goal && increase_eat_count(philo) >= philo->sim->goal)
-	{
-		set_alive(philo, 0);
-		return (1);
-	}
-	return (0);
+	if (!philo->sim->has_goal)
+		return (0);
+	if (increase_eat_count(philo) < philo->sim->goal)
+		return (0);
+	set_alive(philo, 0);
+	return (1);
 }
 
 void	*routine_philo(void *p)
@@ -56,7 +57,7 @@ static int	routine_monitor_philo(t_philo *philo)
 {
 	unsigned long long	last_eat;
 
-	if (is_alive(philo) && !is_eating(philo))
+	if (is_alive(philo))
 	{
 		last_eat = get_last_eat(philo);
 		if (now() >= last_eat + philo->sim->time_die)

@@ -6,14 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:44:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/24 17:44:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/27 06:50:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 static int	set_param(unsigned int *param, char *arg)
 {
@@ -22,7 +22,7 @@ static int	set_param(unsigned int *param, char *arg)
 	while (*s >= '0' && *s <= '9')
 		*param = *param * 10 + *s++ - '0';
 	if (*s || (s == arg && *param == 0))
-		return (printf("Error: An argument is not an unsigned integer\n") && 0);
+		return (write(2, ERROR_ARGV, sizeof (ERROR_ARGV) - 1) && 0);
 	return (1);
 }
 
@@ -31,7 +31,7 @@ static int	parse_params(t_sim *sim, int argc, char *argv[])
 	int	params;
 
 	if (argc != 5 && argc != 6)
-		return (printf("Error: Expected 4 or 5 arguments\n") && 0);
+		return (write(2, ERROR_ARGC, sizeof (ERROR_ARGC) - 1) && 0);
 	params = (set_param(&sim->philo_count, argv[1])
 			&& set_param(&sim->time_die, argv[2])
 			&& set_param(&sim->time_eat, argv[3])

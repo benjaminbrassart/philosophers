@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 05:45:06 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 05:49:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ struct s_sim
 	int					running;
 	pthread_mutex_t		running_lock;
 	t_time				start_time;
-	unsigned long long	start_time;
-	pthread_mutex_t		start_lock;
+	pthread_mutex_t		start_mutex;
 };
 
 struct s_philo

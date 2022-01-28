@@ -27,8 +27,8 @@ void	*routine_philo(void *p)
 {
 	t_philo *const	philo = p;
 
-	pthread_mutex_lock(&philo->sim->start_lock);
-	pthread_mutex_unlock(&philo->sim->start_lock);
+	pthread_mutex_lock(&philo->sim->start_mutex);
+	pthread_mutex_unlock(&philo->sim->start_mutex);
 	while (is_running(philo->sim) && is_alive(philo))
 	{
 		pthread_mutex_lock(philo->fork1);
@@ -82,8 +82,8 @@ void	*routine_monitor(void *s)
 	t_sim *const	sim = s;
 	unsigned int	n;
 
-	pthread_mutex_lock(&sim->start_lock);
-	pthread_mutex_unlock(&sim->start_lock);
+	pthread_mutex_lock(&sim->start_mutex);
+	pthread_mutex_unlock(&sim->start_mutex);
 	while (is_running(sim) && get_alive_count(sim) > 0)
 	{
 		n = 0;

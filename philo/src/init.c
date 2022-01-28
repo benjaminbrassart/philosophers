@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 05:16:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 05:21:52 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static int	init_pthread(t_sim *sim)
 			return (write(2, ERROR_MUTEX "\n", sizeof ERROR_MUTEX) && 0);
 	if (pthread_mutex_init(&sim->write_mutex, NULL)
 		|| pthread_mutex_init(&sim->running_lock, NULL)
-		|| pthread_mutex_init(&sim->start_lock, NULL))
+		|| pthread_mutex_init(&sim->start_mutex, NULL))
 		return (write(2, ERROR_MUTEX "\n", sizeof ERROR_MUTEX) && 0);
-	pthread_mutex_lock(&sim->start_lock);
+	pthread_mutex_lock(&sim->start_mutex);
 	if (pthread_create(&sim->monitor_thread, NULL, routine_monitor, sim))
 		return (write(2, ERROR_THREAD "\n", sizeof ERROR_THREAD) && 0);
 	return (1);

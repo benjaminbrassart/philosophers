@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:44:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 04:32:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 05:17:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ static int	parse_params(t_sim *sim, int argc, char *argv[])
 
 	if (argc != 5 && argc != 6)
 		return (write(2, ERROR_ARGC "\n", sizeof ERROR_ARGC) && 0);
-	params = (set_param(&sim->philo_count, argv[1])
-			&& set_param(&sim->time_die, argv[2])
-			&& set_param(&sim->time_eat, argv[3])
-			&& set_param(&sim->time_sleep, argv[4]));
+	params = (set_param(&sim->p.philo_count, argv[1])
+			&& set_param(&sim->p.time_die, argv[2])
+			&& set_param(&sim->p.time_eat, argv[3])
+			&& set_param(&sim->p.time_sleep, argv[4]));
 	if (argc == 6)
 	{
-		sim->has_goal = 1;
-		params &= set_param(&sim->goal, argv[5]);
+		sim->p.has_goal = 1;
+		params &= set_param(&sim->p.goal, argv[5]);
 	}
 	return (params);
 }
@@ -61,14 +61,14 @@ static int	cleanup(t_sim *sim)
 	if (sim->forks)
 	{
 		n = 0;
-		while (n < sim->philo_count)
+		while (n < sim->p.philo_count)
 			pthread_mutex_destroy(&sim->forks[n++]);
 		free(sim->forks);
 	}
 	if (sim->philos)
 	{
 		n = 0;
-		while (n < sim->philo_count)
+		while (n < sim->p.philo_count)
 			pthread_mutex_destroy(&sim->philos[n++].alive_lock);
 		free(sim->philos);
 	}
@@ -82,7 +82,7 @@ int	main(int argc, char *argv[])
 
 	if (!parse_params(memset(&sim, 0, sizeof sim), argc, argv))
 		return (1);
-	if (sim.has_goal && !sim.goal)
+	if (sim.p.has_goal && !sim.p.goal)
 		return (0);
 	res = init(&sim);
 	if (res)

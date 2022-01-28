@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 05:10:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 05:16:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 typedef struct s_sim	t_sim;
 typedef struct s_philo	t_philo;
 
-struct s_sim
+struct s_params
 {
 	unsigned int		philo_count;
 	unsigned int		time_die;
@@ -40,6 +40,11 @@ struct s_sim
 	unsigned int		time_sleep;
 	unsigned int		goal;
 	int					has_goal;
+};
+
+struct s_sim
+{
+	struct s_params		p;
 	pthread_t			monitor_thread;
 	pthread_mutex_t		*forks;
 	t_philo				*philos;

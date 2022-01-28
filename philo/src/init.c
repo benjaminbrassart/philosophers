@@ -35,10 +35,8 @@ static int	init_philo(t_philo *philo, t_sim *sim, unsigned int id)
 	philo->sim = sim;
 	philo->id = id;
 	philo->alive = 1;
-	philo->eating = 0;
 	philo->eat_count = 0;
 	if (pthread_mutex_init(&philo->alive_lock, NULL)
-		|| pthread_mutex_init(&philo->eating_lock, NULL)
 		|| pthread_mutex_init(&philo->last_eat_lock, NULL)
 		|| pthread_mutex_init(&philo->eat_count_lock, NULL))
 		return (write(2, ERROR_MUTEX "\n", sizeof ERROR_MUTEX) && 0);

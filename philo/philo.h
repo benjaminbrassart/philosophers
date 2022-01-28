@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 05:09:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 05:10:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ struct s_sim
 	pthread_t			monitor_thread;
 	pthread_mutex_t		*forks;
 	t_philo				*philos;
-	pthread_mutex_t		talk_lock;
+	pthread_mutex_t		write_mutex;
 	int					running;
 	pthread_mutex_t		running_lock;
 	unsigned long long	start_time;

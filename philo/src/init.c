@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 04:15:31 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 05:10:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	init_pthread(t_sim *sim)
 	while (n < sim->philo_count)
 		if (pthread_mutex_init(&sim->forks[n++], NULL))
 			return (write(2, ERROR_MUTEX "\n", sizeof ERROR_MUTEX) && 0);
-	if (pthread_mutex_init(&sim->talk_lock, NULL)
+	if (pthread_mutex_init(&sim->write_mutex, NULL)
 		|| pthread_mutex_init(&sim->running_lock, NULL)
 		|| pthread_mutex_init(&sim->start_lock, NULL))
 		return (write(2, ERROR_MUTEX "\n", sizeof ERROR_MUTEX) && 0);

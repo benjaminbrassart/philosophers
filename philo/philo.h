@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/27 06:49:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 04:24:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@
 # define ACTION_THINK "is thinking"
 # define ACTION_DEAD "died"
 
-# define ERROR_ARGC "Error: Expected 4 or 5 arguments\n"
-# define ERROR_ARGV "Error: An argument is not an unsigned integer\n"
-# define ERROR_MUTEX "Error: Failed to create mutex\n"
-# define ERROR_THREAD "Error: Failed to create thread\n"
-# define ERROR_COUNT "Error: There must be at least 1 philosopher\n"
-# define ERROR_MALLOC "Error: Failed to allocate memory\n"
+# define ERROR_ARGC "Error: Expected 4 or 5 arguments"
+# define ERROR_ARGV "Error: An argument is not an unsigned integer"
+# define ERROR_OVERFLOW "Error: An argument overflows UINT_MAX"
+# define ERROR_MUTEX "Error: Failed to create mutex"
+# define ERROR_THREAD "Error: Failed to create thread"
+# define ERROR_COUNT "Error: There must be at least 1 philosopher"
+# define ERROR_MALLOC "Error: Failed to allocate memory"
 
 typedef struct s_sim	t_sim;
 typedef struct s_philo	t_philo;

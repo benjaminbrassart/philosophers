@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:14:29 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 05:03:13 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 05:44:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-unsigned long long	now(void)
+t_time	now(void)
 {
 	struct timeval	tv;
 
@@ -24,9 +24,9 @@ unsigned long long	now(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	ft_usleep(unsigned long long time_ms)
+void	ft_usleep(t_time time_ms)
 {
-	unsigned long long const	start_time = now();
+	t_time const	start_time = now();
 
 	while ((now() - start_time) < time_ms)
 		usleep(time_ms / 10);

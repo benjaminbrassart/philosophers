@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 05:16:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 05:45:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@
 # define ERROR_COUNT "Error: There must be at least 1 philosopher"
 # define ERROR_MALLOC "Error: Failed to allocate memory"
 
-typedef struct s_sim	t_sim;
-typedef struct s_philo	t_philo;
+typedef struct s_sim		t_sim;
+typedef struct s_philo		t_philo;
+typedef unsigned long long	t_time;
 
 struct s_params
 {
@@ -51,6 +52,7 @@ struct s_sim
 	pthread_mutex_t		write_mutex;
 	int					running;
 	pthread_mutex_t		running_lock;
+	t_time				start_time;
 	unsigned long long	start_time;
 	pthread_mutex_t		start_lock;
 };
@@ -64,44 +66,44 @@ struct s_philo
 	pthread_mutex_t		*fork2;
 	int					alive;
 	pthread_mutex_t		alive_lock;
-	unsigned long long	last_eat;
+	t_time				last_eat;
 	pthread_mutex_t		last_eat_lock;
 	unsigned int		eat_count;
 	pthread_mutex_t		eat_count_lock;
 };
 
-unsigned long long	now(void);
+t_time			now(void);
 
-void				ft_usleep(unsigned long long time_ms);
+void			ft_usleep(t_time time_ms);
 
-int					init(t_sim *sim);
+int				init(t_sim *sim);
 
-void				run(t_sim *sim);
+void			run(t_sim *sim);
 
-void				*routine_philo(void *p);
+void			*routine_philo(void *p);
 
-void				*routine_monitor(void *s);
+void			*routine_monitor(void *s);
 
-void				philo_log(t_philo *philo, char const *action);
+void			philo_log(t_philo *philo, char const *action);
 
-int					is_running(t_sim *sim);
+int				is_running(t_sim *sim);
 
-void				set_running(t_sim *sim, int running);
+void			set_running(t_sim *sim, int running);
 
-int					is_alive(t_philo *philo);
+int				is_alive(t_philo *philo);
 
-void				set_alive(t_philo *philo, int alive);
+void			set_alive(t_philo *philo, int alive);
 
-unsigned int		get_alive_count(t_sim *sim);
+unsigned int	get_alive_count(t_sim *sim);
 
-unsigned long long	get_last_eat(t_philo *philo);
+t_time			get_last_eat(t_philo *philo);
 
-void				set_last_eat(t_philo *philo, unsigned long long last_eat);
+void			set_last_eat(t_philo *philo, t_time last_eat);
 
-unsigned int		get_eat_count(t_philo *philo);
+unsigned int	get_eat_count(t_philo *philo);
 
-void				set_eat_count(t_philo *philo, unsigned int eat_count);
+void			set_eat_count(t_philo *philo, unsigned int eat_count);
 
-unsigned int		increase_eat_count(t_philo *philo);
+unsigned int	increase_eat_count(t_philo *philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 09:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 05:18:02 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 05:44:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	*routine_philo(void *p)
 
 static int	routine_monitor_philo(t_philo *philo)
 {
-	unsigned long long	last_eat;
+	t_time	last_eat;
 
 	if (is_alive(philo))
 	{

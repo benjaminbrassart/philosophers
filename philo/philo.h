@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 04:24:09 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 04:37:14 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ struct s_philo
 };
 
 unsigned long long	now(void);
+
+void				ft_usleep(unsigned long long time_ms);
 
 int					init(t_sim *sim);
 

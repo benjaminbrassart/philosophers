@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 09:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 07:35:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 07:37:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ void	*routine_philo(void *p)
 		pthread_mutex_lock(philo->fork_right);
 		philo_log(philo, ACTION_FORK);
 		philo_log(philo, ACTION_EAT);
-		ft_usleep(philo->sim->p.time_eat);
+		usleep(philo->sim->p.time_eat * 1000);
 		set_last_eat(philo, now());
 		pthread_mutex_unlock(&philo->fork_left);
 		pthread_mutex_unlock(philo->fork_right);
 		if (check_eat_count(philo))
 			break ;
 		philo_log(philo, ACTION_SLEEP);
-		ft_usleep(philo->sim->p.time_sleep);
+		usleep(philo->sim->p.time_sleep * 1000);
 		philo_log(philo, ACTION_THINK);
 	}
 	set_alive(philo, 0);

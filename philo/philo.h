@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:45:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 05:49:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 07:26:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ struct s_sim
 {
 	struct s_params		p;
 	pthread_t			monitor_thread;
-	pthread_mutex_t		*forks;
 	t_philo				*philos;
 	pthread_mutex_t		write_mutex;
 	int					running;
@@ -61,8 +60,8 @@ struct s_philo
 	t_sim				*sim;
 	unsigned int		id;
 	pthread_t			thread;
-	pthread_mutex_t		*fork1;
-	pthread_mutex_t		*fork2;
+	pthread_mutex_t		fork_left;
+	pthread_mutex_t		*fork_right;
 	int					alive;
 	pthread_mutex_t		alive_lock;
 	t_time				last_eat;

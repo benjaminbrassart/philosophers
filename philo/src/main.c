@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:44:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 05:17:13 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/28 07:06:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,14 @@ static int	cleanup(t_sim *sim)
 {
 	unsigned int	n;
 
-	if (sim->forks)
-	{
-		n = 0;
-		while (n < sim->p.philo_count)
-			pthread_mutex_destroy(&sim->forks[n++]);
-		free(sim->forks);
-	}
 	if (sim->philos)
 	{
 		n = 0;
 		while (n < sim->p.philo_count)
+		{
+			pthread_mutex_destroy(&sim->philos[n].fork_left);
 			pthread_mutex_destroy(&sim->philos[n++].alive_lock);
+		}
 		free(sim->philos);
 	}
 	return (1);

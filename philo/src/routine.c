@@ -29,6 +29,8 @@ void	*routine_philo(void *p)
 
 	pthread_mutex_lock(&philo->sim->start_mutex);
 	pthread_mutex_unlock(&philo->sim->start_mutex);
+	if (philo->id % 2)
+		usleep(100);
 	while (is_running(philo->sim) && is_alive(philo))
 	{
 		pthread_mutex_lock(&philo->fork_left);

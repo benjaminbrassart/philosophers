@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 07:52:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 07:07:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 08:11:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ int	init(t_sim *sim)
 	if (sim->p.philo_count == 0)
 		return (write(2, ERROR_COUNT "\n", sizeof ERROR_COUNT) && 0);
 	sim->philos = malloc(sizeof (*sim->philos) * sim->p.philo_count);
+	if (sim->p.philo_count % 2)
+		sim->count_factor = 3;
+	else
+		sim->count_factor = 2;
 	if (!sim->philos)
 		return (write(2, ERROR_MALLOC "\n", sizeof ERROR_MALLOC) && 0);
 	return (init_pthread(sim) && init_philos(sim) && (sim->running = 1));

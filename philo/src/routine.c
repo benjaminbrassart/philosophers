@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 09:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/28 07:37:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 08:11:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	*routine_philo(void *p)
 
 	pthread_mutex_lock(&philo->sim->start_mutex);
 	pthread_mutex_unlock(&philo->sim->start_mutex);
-	if (philo->id % 2)
-		usleep(100);
+	if (philo->id % philo->sim->count_factor)
+		usleep(100 * philo->sim->count_factor);
 	while (is_running(philo->sim) && is_alive(philo))
 	{
 		pthread_mutex_lock(&philo->fork_left);
